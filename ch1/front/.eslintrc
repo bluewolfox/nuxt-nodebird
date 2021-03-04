@@ -1,0 +1,22 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": ["plugin:vue/recommended"],
+  "plugins": [],
+  "rules": {
+    "vue/max-attributes-per-line": "off",
+    "vue/attributes-order": "off",
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/html-self-closing": "off",
+    "vue/order-in-components": "off",
+    "vue/multiline-html-element-content-newline" :"off",
+    "vue/html-closing-bracket-newline" :"off",
+    "vue/html-indent" :"off"
+  }
+}

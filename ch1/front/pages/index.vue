@@ -1,11 +1,18 @@
 <template>
-  <div>
-    홈페이지
-  </div>
+  <v-container>
+    <div>
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+    </div>
+  </v-container>
 </template>
 
 <script>
+import PostCard from "@/components/PostCard";
 export default {
+  components: { PostCard },
   data() {
     return {
       name: "Nuxt.js",

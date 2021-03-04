@@ -2,22 +2,22 @@
   {
     "name": "profile",
     "path": "/profile",
-    "component": "D:\\\\workspace\\\\vue-nodebird\\\\ch1\\\\front\\\\pages\\\\profile.vue",
+    "component": "D:\\\\workspace\\\\nuxt-nodebird\\\\ch1\\\\front\\\\pages\\\\profile.vue",
     "chunkName": "pages/profile",
-    "_name": "_559f7276"
+    "_name": "_0c30e236"
   },
   {
     "name": "signup",
     "path": "/signup",
-    "component": "D:\\\\workspace\\\\vue-nodebird\\\\ch1\\\\front\\\\pages\\\\signup.vue",
+    "component": "D:\\\\workspace\\\\nuxt-nodebird\\\\ch1\\\\front\\\\pages\\\\signup.vue",
     "chunkName": "pages/signup",
-    "_name": "_c4963fa8"
+    "_name": "_5d6a929b"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "D:\\\\workspace\\\\vue-nodebird\\\\ch1\\\\front\\\\pages\\\\index.vue",
+    "component": "D:\\\\workspace\\\\nuxt-nodebird\\\\ch1\\\\front\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
-    "_name": "_a6d5cb24"
+    "_name": "_fd9043c2"
   }
 ]

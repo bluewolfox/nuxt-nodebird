@@ -1,5 +1,6 @@
 module.exports = {
   head: {
-    titleTemplate: '%s - Nuxt.js',
+    title: "%s - Nuxt.js",
   },
+  modules: ["@nuxtjs/vuetify", "@nuxtjs/axios"],
 };
