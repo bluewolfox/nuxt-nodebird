@@ -1,27 +1,30 @@
 <template>
   <v-container>
+    <PostForm v-if="me" />
     <div>
-      <PostCard />
-      <PostCard />
-      <PostCard />
-      <PostCard />
+      <PostCard v-for="p in mainPosts" :key="p.id" :post="p" />
     </div>
   </v-container>
 </template>
 
 <script>
 import PostCard from "@/components/PostCard";
+import PostForm from "@/components/PostForm";
+
 export default {
-  components: { PostCard },
+  components: { PostCard, PostForm },
   data() {
     return {
       name: "Nuxt.js",
     };
   },
-  head() {
-    return {
-      title: "메인페이지",
-    };
+  computed: {
+    me() {
+      return this.$store.state.users.me;
+    },
+    mainPosts() {
+      return this.$store.state.posts.mainPosts;
+    },
   },
 };
 </script>

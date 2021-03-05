@@ -3,9 +3,9 @@
     <nav>
       <v-toolbar dark color="green">
         <v-toolbar-title>
-          <nuxt-link to="/" :style="{ color: '#fff', textDecoration: 'none' }"
-            >NodeBird</nuxt-link
-          >
+          <nuxt-link to="/" :style="{ color: '#fff', textDecoration: 'none' }">
+            NodeBird
+          </nuxt-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
@@ -25,7 +25,9 @@
       </v-toolbar>
     </nav>
     <v-row no-gutters>
-      <v-col cols="12" md="4"> <LoginForm /> </v-col>
+      <v-col cols="12" md="4">
+        <LoginForm />
+      </v-col>
       <v-col cols="12" md="8">
         <nuxt />
       </v-col>

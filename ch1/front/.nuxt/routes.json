@@ -2,22 +2,29 @@
   {
     "name": "profile",
     "path": "/profile",
-    "component": "D:\\\\workspace\\\\nuxt-nodebird\\\\ch1\\\\front\\\\pages\\\\profile.vue",
+    "component": "C:\\\\workspace\\\\#study\\\\zerocho\\\\nuxt-nodebird\\\\ch1\\\\front\\\\pages\\\\profile.vue",
     "chunkName": "pages/profile",
-    "_name": "_0c30e236"
+    "_name": "_3155676b"
   },
   {
     "name": "signup",
     "path": "/signup",
-    "component": "D:\\\\workspace\\\\nuxt-nodebird\\\\ch1\\\\front\\\\pages\\\\signup.vue",
+    "component": "C:\\\\workspace\\\\#study\\\\zerocho\\\\nuxt-nodebird\\\\ch1\\\\front\\\\pages\\\\signup.vue",
     "chunkName": "pages/signup",
-    "_name": "_5d6a929b"
+    "_name": "_7c93da74"
+  },
+  {
+    "name": "post-id",
+    "path": "/post/:id",
+    "component": "C:\\\\workspace\\\\#study\\\\zerocho\\\\nuxt-nodebird\\\\ch1\\\\front\\\\pages\\\\post\\\\_id\\\\index.vue",
+    "chunkName": "pages/post/_id/index",
+    "_name": "_114d8eb4"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "D:\\\\workspace\\\\nuxt-nodebird\\\\ch1\\\\front\\\\pages\\\\index.vue",
+    "component": "C:\\\\workspace\\\\#study\\\\zerocho\\\\nuxt-nodebird\\\\ch1\\\\front\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
-    "_name": "_fd9043c2"
+    "_name": "_e693a6d8"
   }
 ]

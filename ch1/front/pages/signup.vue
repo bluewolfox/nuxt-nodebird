@@ -39,7 +39,9 @@
               v-model="check"
               :rules="checkRules"
             />
-            <v-btn color="green" type="submit" :disabled="!valid">가입하기</v-btn>
+            <v-btn color="green" type="submit" :disabled="!valid">
+              가입하기
+            </v-btn>
           </v-form>
         </v-container>
       </v-card>
@@ -70,12 +72,38 @@ export default {
       checkRules: [(v) => !!v || "체크는 필수입니다."],
     };
   },
+  watch: {
+    me(value, oldval) {
+      if (value) {
+        this.$router.push({
+          path: "/",
+        });
+      }
+    },
+  },
+  computed: {
+    me() {
+      return this.$store.state.users.me;
+    },
+  },
   methods: {
     onSubmitForm() {
       if (this.$refs.form.validate()) {
-        alert("회원가입 시도")
-      } else{
-        alert('회원가입 실패')
+        this.$store
+          .dispatch("users/signUp", {
+            email: this.email,
+            nickname: this.nickname,
+          })
+          .then(() => {
+            this.$router.push({
+              path: "/",
+            });
+          })
+          .catch((error) => {
+            alert("회원가입 실패");
+          });
+      } else {
+        alert("회원가입 실패");
       }
     },
   },
@@ -84,6 +112,7 @@ export default {
       title: "회원가입",
     };
   },
+  middleware: "anonymous",
 };
 </script>
 
