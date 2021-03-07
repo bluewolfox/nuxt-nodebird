@@ -21,12 +21,26 @@
         <v-container>
           <v-subheader>팔로잉</v-subheader>
           <FollowList :users="followingList" :remove="removeFollowing" />
+          <v-btn
+            @click="loadMoreFollowings"
+            v-if="hasMoreFollowing"
+            block
+            color="blue"
+            >더보기</v-btn
+          >
         </v-container>
       </v-card>
       <v-card style="margin-bottom: 20px">
         <v-container>
           <v-subheader>팔로워</v-subheader>
           <FollowList :users="followerList" :remove="removeFollower" />
+          <v-btn
+            @click="loadMoreFollowers"
+            v-if="hasMoreFollower"
+            block
+            color="blue"
+            >더보기</v-btn
+          >
         </v-container>
       </v-card>
     </v-container>
@@ -43,12 +57,30 @@ export default {
       nickname: "",
     };
   },
+  watch: {
+    me(value, oldval) {
+      if (value) {
+        this.$router.push({
+          path: "/",
+        });
+      }
+    },
+  },
   computed: {
+    me() {
+      return this.$store.state.users.me;
+    },
     followerList() {
       return this.$store.state.users.followerList;
     },
     followingList() {
       return this.$store.state.users.followingList;
+    },
+    hasMoreFollowing() {
+      return this.$store.state.users.hasMoreFollowing;
+    },
+    hasMoreFollower() {
+      return this.$store.state.users.hasMoreFollower;
     },
   },
   methods: {
@@ -63,8 +95,18 @@ export default {
     removeFollower(id) {
       this.$store.dispatch("users/removeFollower", { id });
     },
+    loadMoreFollowers() {
+      this.$store.dispatch("users/loadFollowers");
+    },
+    loadMoreFollowings() {
+      this.$store.dispatch("users/loadFollowings");
+    },
   },
   middleware: "authenticated",
+  fetch({ store }) {
+    store.dispatch("users/loadFollowers");
+    store.dispatch("users/loadFollowings");
+  },
 };
 </script>
 
