@@ -60,7 +60,7 @@ export default {
         this.$store
           .dispatch("users/logIn", {
             email: this.email,
-            nickname: "bluewolfox",
+            password: this.password,
           })
           .then(() => {
             this.$router.push({

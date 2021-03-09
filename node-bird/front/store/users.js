@@ -65,25 +65,45 @@ export const actions = {
     payload
   ) {
     // 서버에 회원가입 요청을 보내는 부분
-    this.$axios.post("http://localhost:3085/user", {
+    this.$axios.post(`http://localhost:3085/user`, {
       nickname: payload.nickname,
       password: payload.password,
       email: payload.email,
-    }) // REST API
-      .then(response => {
-        if (response.status >= 200) {
-          commit("setMe", payload);
-        }
+    }, {
+      withCredentials: true
+    })
+      .then(res => {
+        commit("setMe", res.data);
       })
       .catch((error) => {
         console.error(error);
       })
   },
   logIn({ commit }, payload) {
-    commit("setMe", payload);
+    // 서버에 로그인 요청을 보내는 부분
+    this.$axios.post(`http://localhost:3085/user/login`, {
+      email: payload.email,
+      password: payload.password,
+    }, {
+      withCredentials: true
+    })
+      .then(res => {
+        commit("setMe", res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
   },
   logOut({ commit }, payload) {
-    commit("setMe", null);
+    this.$axios.post(`http://localhost:3085/user/logout`, {}, {
+      withCredentials: true
+    })
+      .then((data) => {
+        commit("setMe", null);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
   },
   changeNickname({ commit }, payload) {
     commit("changeNickname", payload);
