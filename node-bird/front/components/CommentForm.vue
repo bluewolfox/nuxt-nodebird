@@ -41,24 +41,21 @@ export default {
     },
   },
   methods: {
-    onSubmitForm() {
-      if (this.$refs.form.validate()) {
-        this.$store
-          .dispatch("posts/addComment", {
-            id: Date.now(),
+    async onSubmitForm() {
+      try {
+        if (this.$refs.form.validate()) {
+          const result = await this.$store.dispatch("posts/addComment", {
             postId: this.postId,
             content: this.content,
-            User: {
-              nickname: this.me.nickname,
-            },
-          })
-          .then(() => {
-            this.content = "";
-            this.success = true;
-            this.successMessages = "댓글이 작성되었습니다.";
-            this.hideDetails = false;
-          })
-          .catch(() => {});
+          });
+          console.log(result);
+          // this.content = "";
+          // this.success = true;
+          // this.successMessages = "댓글이 작성되었습니다.";
+          // this.hideDetails = false;
+        }
+      } catch (error) {
+        console.error(err);
       }
     },
     onChangeTextarea(value) {

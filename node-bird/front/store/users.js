@@ -60,24 +60,34 @@ export const mutations = {
 };
 
 export const actions = {
-  signUp(
+  async signUp(
     { commit, dispatch, state, rootState, getters, rootGetters },
     payload
   ) {
-    // 서버에 회원가입 요청을 보내는 부분
-    this.$axios.post(`http://localhost:3085/user`, {
-      nickname: payload.nickname,
-      password: payload.password,
-      email: payload.email,
-    }, {
-      withCredentials: true
-    })
-      .then(res => {
-        commit("setMe", res.data);
+    try {
+      // 서버에 회원가입 요청을 보내는 부분
+      const result = await this.$axios.post(`http://localhost:3085/user`, {
+        nickname: payload.nickname,
+        password: payload.password,
+        email: payload.email,
+      }, {
+        withCredentials: true
       })
-      .catch((error) => {
-        console.error(error);
-      })
+
+      console.log("result여기로옴?");
+      console.log(result);
+      // if (res.status >= 400) {
+      //   alert(res.data.message)
+      // }
+      // commit("setMe", res.data);
+      // this.$router.push({
+      //   path: "/",
+      // });
+
+    } catch (error) {
+      alert(error.response.data.message);
+      console.error(error);
+    }
   },
   logIn({ commit }, payload) {
     // 서버에 로그인 요청을 보내는 부분

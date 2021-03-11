@@ -95,14 +95,6 @@ export default {
             nickname: this.nickname,
             password: this.password,
           })
-          .then(() => {
-            this.$router.push({
-              path: "/",
-            });
-          })
-          .catch((error) => {
-            alert("회원가입 실패");
-          });
       } else {
         alert("회원가입 실패");
       }

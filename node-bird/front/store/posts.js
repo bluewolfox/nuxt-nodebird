@@ -4,7 +4,6 @@ export const state = () => ({
   imagePaths: []
 });
 
-const totalPosts = 51;
 const limit = 10;
 
 export const mutations = {
@@ -20,23 +19,9 @@ export const mutations = {
     const idx = state.mainPosts.findIndex((v) => v.id === payload.postId);
     state.mainPosts[idx].Comments.push(payload);
   },
-  loadPosts(state) {
-    const diff = totalPosts - state.mainPosts.length; // 아직 안불러운 게시글 수
-    const fakePosts = Array(diff > limit ? limit : diff)
-      .fill()
-      .map((v) => ({
-        id: Math.random(),
-        User: {
-          id: 1,
-          nickname: "제로초",
-        },
-        content: `Hello infinite scrolling~ ${Math.random()}`,
-        Comments: [],
-        Images: [],
-      }));
-
-    state.mainPosts = state.mainPosts.concat(fakePosts);
-    state.hasMorePost = fakePosts.length === limit;
+  loadPosts(state, payload) {
+    state.mainPosts = state.mainPosts.concat(payload);
+    state.hasMorePost = payload.length === limit;
   },
   concatImagePaths(state, payload) {
     state.imagePaths = state.imagePaths.concat(payload)
@@ -67,11 +52,30 @@ export const actions = {
     commit("removeMainPost", payload);
   },
   addComment({ commit }, payload) {
-    commit("addComment", payload);
+    this.$axios.post(`http://localhost:3085/post/${payload.postId}/comment`, {
+      content: payload.content
+    }, {
+      withCredentials: true
+    })
+    .then(res=>{
+
+      commit("addComment", res.data);
+      return res
+    })
+    .catch(err=>{
+      console.error(err);
+      alert(err.response.data)
+    })
   },
   loadPosts({ commit, state }, payload) {
     if (state.hasMorePost) {
-      commit("loadPosts");
+      this.$axios.get(`http://localhost:3085/posts?offset=${state.mainPosts.length}&limit=10`)
+        .then(res => {
+          commit("loadPosts", res.data);
+        })
+        .catch(err => {
+          console.error(err);
+        })
     }
   },
   uploadImages({ commit }, payload) {

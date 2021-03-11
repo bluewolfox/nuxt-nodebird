@@ -7,6 +7,7 @@ const { isLoggedIn } = require("./middlewares")
 
 const router = express.Router();
 
+// 게시글 추가
 router.post("/", isLoggedIn, async (req, res) => { // POST /post
   try {
     const hashtags = req.body.content.match(/#[^\s#]+/g);
@@ -51,10 +52,58 @@ const upload = multer({
   limits: { fileSize: 20 * 1024 * 1024 }
 })
 
+// 게시물 이미지 추가
 router.post('/images', isLoggedIn, upload.array('image'), (req, res) => {
   // req.files = [{filename:"웃는얼굴202103091165.png"}, {filename:"메가폰.png"}]
   res.json(req.files.map(v => v.filename))
 
+})
+
+router.get("/:id/comments", async (req, res, next) => {
+  try {
+    const post = await db.Post.findOne({
+      where: { id: req.params.id }
+    })
+    if (!post) {
+      return res.status(404).send("포스트가 존재하지 않습니다.");
+    }
+    const comments = await db.Comment.findAll({
+      where: { PostId: req.params.id },
+      include: [{ model: db.User, attributes: ["id", "nickname"] }],
+      order: [["createdAt", "ASC"]]
+    })
+    return res.json(comments)
+  } catch (error) {
+    next(error)
+  }
+})
+
+// 댓글 추가
+router.post("/:id/comment", isLoggedIn, async (req, res, next) => { // POST /post/:id/comment
+  try {
+    const post = await db.Post.findOne({ where: { id: req.params.id } })
+    if (!post) {
+      return res.status(404).send("포스트가 존재하지 않습니다.");
+    }
+    const newComment = await db.Comment.create({
+      PostId: post.id, // = await post.addComment(newComment.id);
+      UserId: req.user.id,
+      content: req.body.content
+    })
+    const comment = await db.Comment.findOne({
+      where: {
+        id: newComment.id
+      },
+      include: [{
+        model: db.User,
+        attributes: ["id", "nickname"]
+      }]
+    })
+    return res.json(comment)
+
+  } catch (error) {
+    next(error)
+  }
 })
 
 module.exports = router
