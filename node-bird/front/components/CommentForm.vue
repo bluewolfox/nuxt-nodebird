@@ -26,6 +26,7 @@ export default {
       require: true,
     },
   },
+  name: "CommentForm",
   data() {
     return {
       valid: false,
@@ -44,15 +45,14 @@ export default {
     async onSubmitForm() {
       try {
         if (this.$refs.form.validate()) {
-          const result = await this.$store.dispatch("posts/addComment", {
+          await this.$store.dispatch("posts/addComment", {
             postId: this.postId,
             content: this.content,
           });
-          console.log(result);
-          // this.content = "";
-          // this.success = true;
-          // this.successMessages = "댓글이 작성되었습니다.";
-          // this.hideDetails = false;
+          this.content = "";
+          this.success = true;
+          this.successMessages = "댓글이 작성되었습니다.";
+          this.hideDetails = false;
         }
       } catch (error) {
         console.error(err);

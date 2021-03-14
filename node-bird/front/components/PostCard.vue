@@ -1,10 +1,12 @@
 <template>
   <div>
     <v-card style="margin-bottom: 20px">
-      <v-img />
+      <post-images :images="post.Images || []" />
       <v-card-title>
         <h3>
-          <nuxt-link :to="`/user/${post.id}`">{{ post.User.nickname }}</nuxt-link>
+          <nuxt-link :to="`/user/${post.id}`">{{
+            post.User.nickname
+          }}</nuxt-link>
         </h3>
       </v-card-title>
       <v-card-text>
@@ -38,22 +40,27 @@
     <template v-if="commentOpened">
       <CommentForm :post-id="post.id" />
       <v-list-item v-for="c in post.Comments" :key="c.id">
-        <v-list-item-avatar color="teal">
-          <span>{{ c.User.nickname[0] }}</span>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <h3>{{ c.User.nickname }}</h3>
-          <div>{{ c.content }}</div>
-        </v-list-item-content>
+        <div v-if="!c">댓글을 등록해주세요!</div>
+        <template v-else>
+          <v-list-item-avatar color="teal">
+            <span>{{ c.User.nickname[0] }}</span>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <h3>{{ c.User.nickname }}</h3>
+            <div>{{ c.content }}</div>
+          </v-list-item-content>
+        </template>
       </v-list-item>
     </template>
   </div>
 </template>
 
 <script>
-import CommentForm from "@/components/CommentForm";
+import PostImages from "@/components/PostImages.vue";
+import CommentForm from "@/components/CommentForm.vue";
 export default {
-  components: { CommentForm },
+  name: "PostCard",
+  components: { PostImages, CommentForm },
   props: {
     post: {
       type: Object,
@@ -65,15 +72,28 @@ export default {
       commentOpened: false,
     };
   },
+  computed: {
+    me() {
+      return this.$store.state.users.me;
+    },
+  },
   methods: {
     onRemovePost() {
+      if (!this.me) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
       this.$store.dispatch("posts/remove", {
-        id: this.post.id,
+        postId: this.post.id,
       });
     },
-    onEditPost() {
-    },
+    onEditPost() {},
     onToggleComment() {
+      if (!this.commentOpened) {
+        this.$store.dispatch("posts/loadComments", {
+          postId: this.post.id,
+        });
+      }
       this.commentOpened = !this.commentOpened;
     },
   },

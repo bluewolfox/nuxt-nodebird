@@ -60,30 +60,36 @@ export const mutations = {
 };
 
 export const actions = {
-  async signUp(
-    { commit, dispatch, state, rootState, getters, rootGetters },
-    payload
-  ) {
+  async loadUser({ state, commit }) {
+    try {
+      const res = await this.$axios.get("/user", {
+        withCredentials: true,
+      });
+      commit("setMe", res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  async signUp({ commit }, payload) {
     try {
       // 서버에 회원가입 요청을 보내는 부분
-      const result = await this.$axios.post(`http://localhost:3085/user`, {
-        nickname: payload.nickname,
-        password: payload.password,
-        email: payload.email,
-      }, {
-        withCredentials: true
-      })
-
-      console.log("result여기로옴?");
-      console.log(result);
-      // if (res.status >= 400) {
-      //   alert(res.data.message)
-      // }
-      // commit("setMe", res.data);
-      // this.$router.push({
-      //   path: "/",
-      // });
-
+      const result = await this.$axios.post(
+        `/user`,
+        {
+          nickname: payload.nickname,
+          password: payload.password,
+          email: payload.email,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (result.status === 200) {
+        commit("setMe", result.data);
+        this.$router.push({
+          path: "/",
+        });
+      }
     } catch (error) {
       alert(error.response.data.message);
       console.error(error);
@@ -91,29 +97,40 @@ export const actions = {
   },
   logIn({ commit }, payload) {
     // 서버에 로그인 요청을 보내는 부분
-    this.$axios.post(`http://localhost:3085/user/login`, {
-      email: payload.email,
-      password: payload.password,
-    }, {
-      withCredentials: true
-    })
-      .then(res => {
+    this.$axios
+      .post(
+        `/user/login`,
+        {
+          email: payload.email,
+          password: payload.password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
         commit("setMe", res.data);
       })
       .catch((error) => {
+        alert(error.response.data);
         console.error(error);
-      })
+      });
   },
   logOut({ commit }, payload) {
-    this.$axios.post(`http://localhost:3085/user/logout`, {}, {
-      withCredentials: true
-    })
+    this.$axios
+      .post(
+        `/user/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
       .then((data) => {
         commit("setMe", null);
       })
       .catch((error) => {
         console.error(error);
-      })
+      });
   },
   changeNickname({ commit }, payload) {
     commit("changeNickname", payload);
